@@ -15,7 +15,7 @@ $(document).ready(function() {
 
 function getProducts() {
 	const Http = new XMLHttpRequest();
-	const url = 'http://localhost:8080/showProducts';
+	const url = 'http://localhost:9001/showProducts';
 	Http.open("GET", url);
 	var a = 1;
 	Http.onreadystatechange = function(e) {
@@ -28,18 +28,43 @@ function getProducts() {
 				var description = document.createElement("td");
 				var price = document.createElement("td");
 				var quantity = document.createElement("td");
+				var num = document.createElement("input");
 				var basket = document.createElement("a");
-
+				var update = document.createElement("a");
+				var p = document.createElement("input");
+	
 				table.id = "pTable" + a;
 				name.id = "name";
+				name.setAttribute("name", item.productid);
 				description.id = "description";
+				description.setAttribute("name", item.productid);
 				price.id = "price";
+				price.setAttribute("name", item.productid);
 				quantity.id = "quantity";
+				num.id = "num"
+				num.type = "number";
+				num.min = "1";
+				num.max = "10";
+				quantity.appendChild(num);
+
+				price.onclick = function() {
+					p.type = "text";
+					p.value = price.innerHTML;
+					price.parentNode.replaceChild(p, price);
+				}
+				
+				update.id = "update";
+				update.href = "#";
+				update.innerHTML = "Update";
+				update.onclick = function () {
+					var priceId = price.getAttribute("name")
+					var newPrice = p.value;
+					updatePrice(priceId, newPrice);
+				}
 
 				basket.id = "basket";
 				basket.href = "#";
-				basket.innerHTML = "Add";
-				basket.className = "glyphicon glyphicon-shopping-cart";
+				basket.innerHTML = "Add to basket";
 				basket.onclick = function(e) {
 					addToBasket(e);
 				}
@@ -47,7 +72,6 @@ function getProducts() {
 				name.innerHTML = item.name;
 				description.innerHTML = item.description;
 				price.innerHTML = item.price;
-				quantity.innerHTML = item.quantity;
 
 				document.getElementById("pList").appendChild(table);
 				document.getElementById("pTable" + a).appendChild(name);
@@ -55,7 +79,8 @@ function getProducts() {
 				document.getElementById("pTable" + a).appendChild(price);
 				document.getElementById("pTable" + a).appendChild(quantity);
 				document.getElementById("pTable" + a).appendChild(basket);
-
+				document.getElementById("pTable" + a).appendChild(update);
+				
 				a = a + 1;
 			});
 		}
@@ -66,7 +91,7 @@ function getProducts() {
 
 function addToBasket(e) {
 	const Http = new XMLHttpRequest();
-	const url = 'http://localhost:8080/addToBasket';
+	const url = 'http://localhost:9001/addToBasket';
 	Http.open("POST", url, true);
 	Http.setRequestHeader("Content-Type", "application/json");
 	const product = e.target.parentElement;
@@ -74,9 +99,9 @@ function addToBasket(e) {
 		'name' : product.querySelector('#name').textContent,
 		'description' : product.querySelector('#description').textContent,
 		'price' : product.querySelector('#price').textContent,
-		'quantity' : product.querySelector('#quantity').textContent
+		'quantity' : product.querySelector('#num').value
 	}
-
+		
 	Http.onreadystatechange = function(ev) {
 		console.log("Here");
 	}
@@ -88,55 +113,47 @@ function addToBasket(e) {
 
 function showBasket() {
 	const Http = new XMLHttpRequest();
-	const url = 'http://localhost:8080/showBasket';
+	const url = 'http://localhost:9001/showBasket';
 	Http.open("GET", url);
 	var a = 1;
 	Http.onreadystatechange = function(e) {
 		if (Http.readyState == 4 && Http.status == 200) {
 			data = JSON.parse(Http.responseText);
-			data
-					.forEach(function(item) {
+			data.forEach(function(item) {
+				var table = document.createElement("tr");
+				var name = document.createElement("td");
+				var description = document.createElement("td");
+				var price = document.createElement("td");
+				var quantity = document.createElement("td");
+				var productPrice = document.createElement("td");
+				var remove = document.createElement("a");
 
-						var table = document.createElement("tr");
-						var name = document.createElement("td");
-						var description = document.createElement("td");
-						var price = document.createElement("td");
-						var quantity = document.createElement("td");
-						var productPrice = document.createElement("td");
-						var remove = document.createElement("a");
+				table.id = "bTable" + a;
 
-						table.id = "bTable" + a;
+				remove.id = item.basketid;
+				remove.href = "#"
+				remove.className = "button";
+				remove.innerHTML = "x";
+				remove.onclick = function() {
+					deleteProduct(remove.id);
+				}
 
-						remove.id = item.basketid;
-						remove.href = "#"
-						remove.className = "button";
-						remove.innerHTML = "x";
-						remove.onclick = function() {
-							deleteProduct(remove.id);
-						}
+				name.innerHTML = item.name;
+				description.innerHTML = item.description;
+				price.innerHTML = item.price;
+				quantity.innerHTML = item.quantity;
+				productPrice.innerHTML = parseInt(price.innerHTML) * parseInt(quantity.innerHTML);
 
-						name.innerHTML = item.name;
-						description.innerHTML = item.description;
-						price.innerHTML = item.price;
-						quantity.innerHTML = item.quantity;
-						productPrice.innerHTML = parseInt(price.innerHTML)
-								* parseInt(quantity.innerHTML);
-
-						document.getElementById("bList").appendChild(table);
-						document.getElementById("bTable" + a).appendChild(name);
-						document.getElementById("bTable" + a).appendChild(
-								description);
-						document.getElementById("bTable" + a)
-								.appendChild(price);
-						document.getElementById("bTable" + a).appendChild(
-								quantity);
-						document.getElementById("bTable" + a).appendChild(
-								productPrice);
-						document.getElementById("bTable" + a).appendChild(
-								remove);
-
-						a = a + 1;
-					});
+				document.getElementById("bList").appendChild(table);
+				document.getElementById("bTable" + a).appendChild(name);
+				document.getElementById("bTable" + a).appendChild(description);
+				document.getElementById("bTable" + a).appendChild(price);
+				document.getElementById("bTable" + a).appendChild(quantity);
+				document.getElementById("bTable" + a).appendChild(productPrice);
+				document.getElementById("bTable" + a).appendChild(remove);
+				
+				a = a + 1;
+			});
 		}
 
 	}
@@ -145,7 +162,7 @@ function showBasket() {
 
 function deleteProduct(bId) {
 	$.ajax({
-		url : 'http://localhost:8080/deleteFromBasket/' + bId,
+		url : 'http://localhost:9001/deleteFromBasket/' + bId,
 		type : 'DELETE',
 		success : function(result) {
 			window.location.reload();
@@ -153,10 +170,10 @@ function deleteProduct(bId) {
 	});
 }
 
-function updateProduct(bId) {
+function updatePrice(pId, newPrice) {
 	$.ajax({
-		url : 'http://localhost:8080/updateBasket/' + bId,
-		type : 'DELETE',
+		url : 'http://localhost:9001/updatePrice/' + pId + '/' + newPrice,
+		type : 'PUT',
 		success : function(result) {
 			window.location.reload();
 		}
@@ -190,7 +207,7 @@ function sorting() {
 	var table = document.getElementById("pList");
 	var switching = true;
 	var shouldSwitch;
-	if(selected == "name") {
+	if (selected == "name") {
 		while (switching) {
 			switching = false;
 			var rows = table.rows;
@@ -210,8 +227,8 @@ function sorting() {
 			}
 		}
 	}
-		
-	if(selected == "price") {
+
+	if (selected == "price") {
 		while (switching) {
 			switching = false;
 			var rows = table.rows;
@@ -231,6 +248,5 @@ function sorting() {
 			}
 		}
 	}
-	
 
 }

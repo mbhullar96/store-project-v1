@@ -46,8 +46,13 @@ public class ProductsController {
 	}
 	
 	@PutMapping("/updateProduct/{pId}/{n}/{d}/{p}/{q}")
-	public String updateProduct(@PathVariable int pId, @PathVariable String n, @PathVariable String d, @PathVariable int p, @PathVariable int q) {
-		return productService.updateProduct(pId, n, d, p, q);
+	public String updateProduct(@PathVariable int pId, @PathVariable String n, @PathVariable String d, @PathVariable int p) {
+		return productService.updateProduct(pId, n, d, p);
+	}
+	
+	@PutMapping("/updatePrice/{pId}/{p}")
+	public String updatePrice(@PathVariable int pId, @PathVariable int p) {
+		return productService.updatePrice(pId, p);
 	}
 	
 	@GetMapping("/priceAsc")

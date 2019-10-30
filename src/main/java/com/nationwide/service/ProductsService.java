@@ -42,15 +42,23 @@ public class ProductsService {
 		return "Product deleted";
 	}
 	
-	public String updateProduct(int pId, String n, String d, int p, int q) {
+	public String updateProduct(int pId, String n, String d, int p) {
 
 		Products product = findByProductid(pId);
 		product.setName(n);
 		product.setDescription(d);
 		product.setPrice(p);
-		product.setQuantity(q);
+//		product.setQuantity(q);
 		repo.save(product);
 		return "Product updated";
+	}
+	
+	public String updatePrice(int pId, int p) {
+
+		Products product = findByProductid(pId);
+		product.setPrice(p);
+		repo.save(product);
+		return "Price updated";
 	}
 	
 	public ArrayList<Products> findAllByPriceAsc() {
