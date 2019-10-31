@@ -8,6 +8,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>ProjectTest</title>
+    
+    <style>
+    	th {
+    		cursor: pointer;
+    	}
+    </style>
 </head>
 
 <body>
@@ -35,17 +41,12 @@
 
     <div class="container" id="products">
         <h4>Products</h4>
-        <select id="sort" name="sort" onchange="sorting()" >
-				<option value="">Sort</option>
-				<option id="nameSort" value="name">Name</option>
-				<option id="priceSort" value="price">Price</option>
-		</select>
         <table class="table table-hover" id="pTable">
             <thead>
                 <tr>
-                    <th>Name</th>
+                    <th onclick="sorting(0)">Name</th>
                     <th>Description</th>
-                    <th>Price</th>
+                    <th onclick="sorting(2)">Price</th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -53,8 +54,14 @@
             <tbody id="pList">
             </tbody>
         </table>
+        <h6>New Product</h6>
+        <input type="text" id="addProductName" placeholder="Enter name"></input>
+        <input type="text" id="addProductDescription" placeholder="Enter description"></input>
+        <input type="number" id="addProductPrice" placeholder="Enter price"></input>
+        <button type="submit" id="btnAddProduct" onclick="newProduct()">Add Product</button>
     </div>
     <br>
+    
 
     <div class="container" id="basket">
         <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#basketDiv">View Basket<span id="counter">(0)</span></button>
