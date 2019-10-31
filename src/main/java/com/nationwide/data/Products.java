@@ -13,7 +13,7 @@ public class Products {
 	private String name;
 	private String description;
 	private int price;
-//	private int quantity;
+	private int quantity;
 	
 //	public Products() {}
 //	
@@ -49,11 +49,11 @@ public class Products {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-//	public int getQuantity() {
-//		return quantity;
-//	}
-//	public void setQuantity(int quantity) {
-//		this.quantity = quantity;
-//	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 	
 }

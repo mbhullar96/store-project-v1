@@ -45,7 +45,7 @@ public class ProductsController {
 		return productService.deleteProduct(pId);
 	}
 	
-	@PutMapping("/updateProduct/{pId}/{n}/{d}/{p}/{q}")
+	@PutMapping("/updateProduct/{pId}/{n}/{d}/{p}")
 	public String updateProduct(@PathVariable int pId, @PathVariable String n, @PathVariable String d, @PathVariable int p) {
 		return productService.updateProduct(pId, n, d, p);
 	}

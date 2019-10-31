@@ -48,7 +48,6 @@ public class ProductsService {
 		product.setName(n);
 		product.setDescription(d);
 		product.setPrice(p);
-//		product.setQuantity(q);
 		repo.save(product);
 		return "Product updated";
 	}

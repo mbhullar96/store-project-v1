@@ -2,16 +2,20 @@ $(document).ready(function() {
 	setTimeout(function() {
 		getProducts();
 		showBasket();
+//		basketCount();
 
 	}, 100);
 
 })
 
-// function basketCount() {
-// var count =
-// document.getElementById("basketTable").getElementsByTagName("tr").length;
-// document.getElementById("count").innerHTML = count;
-// }
+function basketCount() {
+	var count = 0;
+	console.log(count);
+	document.getElementById("basketTable").getElementsByTagName("tr").length;
+	console.log(document.getElementById("basketTable").getElementsByTagName("tr").length);
+	document.getElementById("counter").innerHTML = count;
+	console.log(document.getElementById("counter").innerHTML = count);
+}
 
 function getProducts() {
 	const Http = new XMLHttpRequest();
@@ -28,43 +32,77 @@ function getProducts() {
 				var description = document.createElement("td");
 				var price = document.createElement("td");
 				var quantity = document.createElement("td");
-				var num = document.createElement("input");
-				var basket = document.createElement("a");
-				var update = document.createElement("a");
+				var basket = document.createElement("td");
+				var basketIcon = document.createElement("span");
+				var update = document.createElement("td");
+				var confirm = document.createElement("span");
+				var n = document.createElement("input");
+				var d = document.createElement("input");
 				var p = document.createElement("input");
-	
+
 				table.id = "pTable" + a;
 				name.id = "name";
-				name.setAttribute("name", item.productid);
 				description.id = "description";
-				description.setAttribute("name", item.productid);
 				price.id = "price";
-				price.setAttribute("name", item.productid);
 				quantity.id = "quantity";
-				num.id = "num"
-				num.type = "number";
-				num.min = "1";
-				num.max = "10";
-				quantity.appendChild(num);
-
-				price.onclick = function() {
-					p.type = "text";
-					p.value = price.innerHTML;
-					price.parentNode.replaceChild(p, price);
-				}
+				quantity.style.display = "none";
 				
+
+				
+//				table.onclick = function() {
+//					n.type = "text";
+//					n.value = name.innerHTML;
+//					d.type = "text";
+//					d.value = description.innerHTML;
+//					p.type = "text";
+//					p.value = price.innerHTML;
+//					name.parentNode.replaceChild(n, name);
+//					description.parentNode.replaceChild(d, description);
+//					price.parentNode.replaceChild(p, price);
+//				}
+
+//				price.onclick = function() {
+//					var p = document.createElement("input");
+//					p.type = "text";
+//					p.value = price.innerHTML;
+//					price.parentNode.replaceChild(p, price);
+//				}
+
+				confirm.id = "confirm";
+				confirm.href = "#";
+				confirm.className = "glyphicon glyphicon-ok";
+				confirm.style.display = "none";
 				update.id = "update";
 				update.href = "#";
 				update.innerHTML = "Update";
-				update.onclick = function () {
-					var priceId = price.getAttribute("name")
-					var newPrice = p.value;
-					updatePrice(priceId, newPrice);
-				}
+				update.onclick = function() {
+					n.type = "text";
+					n.value = name.innerHTML;
+					d.type = "text";
+					d.value = description.innerHTML;
+					p.type = "text";
+					p.value = price.innerHTML;
+					name.parentNode.replaceChild(n, name);
+					description.parentNode.replaceChild(d, description);
+					price.parentNode.replaceChild(p, price);
+					if (update.style.display === "none") {
+						update.style.display = "block";
+						confirm.style.display = "none";
+					  } else {
+						  update.style.display = "none";
+						  confirm.style.display = "block";
+					  }
+					
 
+				}
+				
+				confirm.onclick = function() {
+					updateProduct(item.productid, n.value, d.value, p.value);
+				}
+				
+				basketIcon.className = "glyphicon glyphicon-shopping-cart";
+				basket.appendChild(basketIcon);
 				basket.id = "basket";
-				basket.href = "#";
-				basket.innerHTML = "Add to basket";
 				basket.onclick = function(e) {
 					addToBasket(e);
 				}
@@ -72,15 +110,17 @@ function getProducts() {
 				name.innerHTML = item.name;
 				description.innerHTML = item.description;
 				price.innerHTML = item.price;
+				quantity.innerHTML = item.quantity;
 
 				document.getElementById("pList").appendChild(table);
 				document.getElementById("pTable" + a).appendChild(name);
 				document.getElementById("pTable" + a).appendChild(description);
 				document.getElementById("pTable" + a).appendChild(price);
-				document.getElementById("pTable" + a).appendChild(quantity);
 				document.getElementById("pTable" + a).appendChild(basket);
+				document.getElementById("pTable" + a).appendChild(confirm);
+				document.getElementById("pTable" + a).appendChild(quantity);
 				document.getElementById("pTable" + a).appendChild(update);
-				
+
 				a = a + 1;
 			});
 		}
@@ -94,14 +134,14 @@ function addToBasket(e) {
 	const url = 'http://localhost:9001/addToBasket';
 	Http.open("POST", url, true);
 	Http.setRequestHeader("Content-Type", "application/json");
-	const product = e.target.parentElement;
+	const product = e.target.parentElement.parentElement;
 	const products = {
 		'name' : product.querySelector('#name').textContent,
 		'description' : product.querySelector('#description').textContent,
 		'price' : product.querySelector('#price').textContent,
-		'quantity' : product.querySelector('#num').value
+		'quantity' : product.querySelector('#quantity').textContent
 	}
-		
+
 	Http.onreadystatechange = function(ev) {
 		console.log("Here");
 	}
@@ -119,41 +159,66 @@ function showBasket() {
 	Http.onreadystatechange = function(e) {
 		if (Http.readyState == 4 && Http.status == 200) {
 			data = JSON.parse(Http.responseText);
-			data.forEach(function(item) {
-				var table = document.createElement("tr");
-				var name = document.createElement("td");
-				var description = document.createElement("td");
-				var price = document.createElement("td");
-				var quantity = document.createElement("td");
-				var productPrice = document.createElement("td");
-				var remove = document.createElement("a");
+			data
+					.forEach(function(item) {
+						var table = document.createElement("tr");
+						var name = document.createElement("td");
+						var description = document.createElement("td");
+						var price = document.createElement("td");
+						var quantity = document.createElement("td");
+						var num = document.createElement("input");
+						var productPrice = document.createElement("td");
+						var remove = document.createElement("span");
+						var confirm = document.createElement("span");
 
-				table.id = "bTable" + a;
+						table.id = "bTable" + a;
+						quantity.id = "quantity";
+						num.id = "num";
+						num.type = "number";
+						num.value = "1";
+						num.min = "1";
+						num.max = "5";
+						
+						quantity.appendChild(num);
+						
+						confirm.id = "confirm";
+						confirm.href = "#";
+//						confirm.innerHTML = "Confirm";
+						confirm.className = "glyphicon glyphicon-ok";
+						confirm.style.display = "none";
+						
+						num.onchange = function () {
+							confirm.style.display = "block";
+						}
+						
+						confirm.onclick = function() {
+							updateQuantity(item.basketid, num.value);
+						}
 
-				remove.id = item.basketid;
-				remove.href = "#"
-				remove.className = "button";
-				remove.innerHTML = "x";
-				remove.onclick = function() {
-					deleteProduct(remove.id);
-				}
+						remove.id = item.basketid;
+						remove.href = "#"
+						remove.className = "glyphicon glyphicon-remove";
+						remove.onclick = function() {
+							deleteProduct(remove.id);
+						}
 
-				name.innerHTML = item.name;
-				description.innerHTML = item.description;
-				price.innerHTML = item.price;
-				quantity.innerHTML = item.quantity;
-				productPrice.innerHTML = parseInt(price.innerHTML) * parseInt(quantity.innerHTML);
+						name.innerHTML = item.name;
+						description.innerHTML = item.description;
+						price.innerHTML = item.price;
+						num.value = item.quantity;
+						productPrice.innerHTML = parseInt(price.innerHTML) * parseInt(num.value);
+						
+						document.getElementById("bList").appendChild(table);
+						document.getElementById("bList").appendChild(confirm);
+						document.getElementById("bTable" + a).appendChild(name);
+						document.getElementById("bTable" + a).appendChild(description);
+						document.getElementById("bTable" + a).appendChild(price);
+						document.getElementById("bTable" + a).appendChild(quantity);
+						document.getElementById("bTable" + a).appendChild(productPrice);
+						document.getElementById("bTable" + a).appendChild(remove);
 
-				document.getElementById("bList").appendChild(table);
-				document.getElementById("bTable" + a).appendChild(name);
-				document.getElementById("bTable" + a).appendChild(description);
-				document.getElementById("bTable" + a).appendChild(price);
-				document.getElementById("bTable" + a).appendChild(quantity);
-				document.getElementById("bTable" + a).appendChild(productPrice);
-				document.getElementById("bTable" + a).appendChild(remove);
-				
-				a = a + 1;
-			});
+						a = a + 1;
+					});
 		}
 
 	}
@@ -170,15 +235,41 @@ function deleteProduct(bId) {
 	});
 }
 
-function updatePrice(pId, newPrice) {
+function updateProduct(pId, n, d, p) {
 	$.ajax({
-		url : 'http://localhost:9001/updatePrice/' + pId + '/' + newPrice,
+		url : 'http://localhost:9001/updateProduct/' + pId + '/' + n + '/' + d + '/' + p,
 		type : 'PUT',
 		success : function(result) {
 			window.location.reload();
+
 		}
 	});
+
 }
+
+function updateQuantity(bId, q) {
+	$.ajax({
+		url : 'http://localhost:9001/updateQuantity/' + bId + '/' + q,
+		type : 'PUT',
+		success : function(result) {
+			window.location.reload();
+
+		}
+	});
+
+}
+
+//function updatePrice(pId, newPrice) {
+//	$.ajax({
+//		url : 'http://localhost:9001/updatePrice/' + pId + '/' + newPrice,
+//		type : 'PUT',
+//		success : function(result) {
+//			window.location.reload();
+//
+//		}
+//	});
+//
+//}
 
 function searchProducts() {
 
@@ -212,7 +303,7 @@ function sorting() {
 			switching = false;
 			var rows = table.rows;
 
-			for (var i = 0; i < (rows.length - 1); i++) {
+			for (var i = 0; i < rows.length; i++) {
 				shouldSwitch = false;
 				var x = rows[i].getElementsByTagName("td")[0];
 				var y = rows[i + 1].getElementsByTagName("td")[0];
@@ -233,7 +324,7 @@ function sorting() {
 			switching = false;
 			var rows = table.rows;
 
-			for (var i = 0; i < (rows.length - 1); i++) {
+			for (var i = 0; i < rows.length; i++) {
 				shouldSwitch = false;
 				var x = rows[i].getElementsByTagName("td")[2];
 				var y = rows[i + 1].getElementsByTagName("td")[2];
