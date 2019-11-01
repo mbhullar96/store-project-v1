@@ -42,11 +42,11 @@ public class ProductsService {
 		return "Product deleted";
 	}
 	
-	public String updateProduct(int pId, String n, String d, int p) {
+	public String updateProduct(int pId, String n, String c, int p) {
 
 		Products product = findByProductid(pId);
 		product.setName(n);
-		product.setDescription(d);
+		product.setCategory(c);
 		product.setPrice(p);
 		repo.save(product);
 		return "Product updated";

@@ -34,7 +34,7 @@
                 </div>
             </form>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li><a href="Login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
             </ul>
         </div>
     </nav>
@@ -45,8 +45,9 @@
             <thead>
                 <tr>
                     <th onclick="sorting(0)">Name</th>
-                    <th>Description</th>
+                    <th onclick="sorting(1)">Category</th>
                     <th onclick="sorting(2)">Price</th>
+                    <th></th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -56,7 +57,7 @@
         </table>
         <h5>Add New Product</h5>
         <input type="text" id="addProductName" placeholder="Enter name"></input>
-        <input type="text" id="addProductDescription" placeholder="Enter description"></input>
+        <input type="text" id="addProductCategory" placeholder="Enter category"></input>
         <input type="number" id="addProductPrice" placeholder="Enter price"></input>
         <button type="submit" id="btnAddProduct" onclick="newProduct()">Add Product</button>
     </div>
@@ -70,18 +71,16 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Description</th>
+                        <th>Category</th>
                         <th>Price</th>
                         <th>Quantity</th>
-                        <th></th>
+                        <th id="totalPrice">Total</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody id="bList">
                 </tbody>
             </table>
-            <h5 id="totalPrice">Total Price</h5>
-            <p id="priceTxt"></p>
         </div>
     </div>
 

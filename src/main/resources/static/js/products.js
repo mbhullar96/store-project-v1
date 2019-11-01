@@ -4,10 +4,7 @@ $(document).ready(function() {
 		showBasket();
 
 	}, 100);
-
-})
-
-$(document).ready(function() {
+	
 	setTimeout(function() {
 		basketCount();
 
@@ -31,90 +28,94 @@ function getProducts() {
 			data = JSON.parse(Http.responseText);
 			data.forEach(function(item) {
 
-				var table = document.createElement("tr");
-				var name = document.createElement("td");
-				var description = document.createElement("td");
-				var price = document.createElement("td");
-				var quantity = document.createElement("td");
-				var basket = document.createElement("td");
+				var productTable = document.getElementById("pList");
+				var rows = productTable.insertRow();
+				var name = rows.insertCell(0);
+				var category = rows.insertCell(1);
+				var price = rows.insertCell(2);
+				var quantity = rows.insertCell(3);
+				var basket = rows.insertCell(4);
+				var update = rows.insertCell(5);
+				var deleteTD = rows.insertCell(6);
+				
 				var basketIcon = document.createElement("span");
-				var update = document.createElement("td");
 				var updateIcon = document.createElement("span");
 				var confirm = document.createElement("span");
-				var deleteTD = document.createElement("td");
 				var deleteIcon = document.createElement("span");
+				
 				var n = document.createElement("input");
-				var d = document.createElement("input");
+				var c = document.createElement("input");
 				var p = document.createElement("input");
 
-				table.id = "pTable" + a;
+				rows.id = "pTable" + a;
 				name.id = "name";
-				description.id = "description";
+				category.id = "category";
 				price.id = "price";
-				quantity.id = "quantity";
-				quantity.style.display = "none";
-
+				quantity.id = "quantity";	
 				confirm.id = "confirm";
-				confirm.href = "#";
-				confirm.className = "glyphicon glyphicon-ok";
-				confirm.style.display = "none";
-
-				deleteTD.appendChild(deleteIcon);
+				basketIcon.id = "basketIcon";
+				updateIcon.id = "update";
 				deleteIcon.id = item.productid;
+				
+				quantity.style.display = "none";
+				confirm.style.display = "none";
+				
+				confirm.className = "glyphicon glyphicon-ok";
+				basketIcon.className = "glyphicon glyphicon-shopping-cart";
+				updateIcon.className = "glyphicon glyphicon-edit";
+				
+				basket.onclick = function(e) {
+					addToBasket(e);					
+				}
+				
 				deleteIcon.className = "glyphicon glyphicon-remove";
 				deleteIcon.onclick = function() {
 					deleteProduct(item.productid);
 				}
-
-				update.appendChild(updateIcon);
-				update.appendChild(confirm);
-				updateIcon.id = "update";
-				updateIcon.className = "glyphicon glyphicon-edit";
+								
 				updateIcon.onclick = function() {
 					n.type = "text";
-					n.value = name.innerHTML;
-					d.type = "text";
-					d.value = description.innerHTML;
+					c.type = "text";
 					p.type = "text";
+					
+					n.value = name.innerHTML;
+					c.value = category.innerHTML;
 					p.value = price.innerHTML;
-					name.parentNode.replaceChild(n, name);
-					description.parentNode.replaceChild(d, description);
-					price.parentNode.replaceChild(p, price);
+					
+					name.remove();
+					category.remove();
+					price.remove();
+					
+					rows.insertCell(0).appendChild(n);
+					rows.insertCell(1).appendChild(c);
+					rows.insertCell(2).appendChild(p);
+					
 					if (update.style.display === "none") {
 						update.style.display = "block";
 						confirm.style.display = "none";
 					} else {
 						update.style.display = "none";
+						rows.insertCell(5).appendChild(confirm);
 						confirm.style.display = "block";
 					}
 
 				}
 
 				confirm.onclick = function() {
-					updateProduct(item.productid, n.value, d.value, p.value);
-				}
-
-				basketIcon.id = "basketIcon";
-				basketIcon.className = "glyphicon glyphicon-shopping-cart";
-				basket.appendChild(basketIcon);
-				basket.onclick = function(e) {
-					addToBasket(e);
+					updateProduct(item.productid, n.value, c.value, p.value);
 				}
 
 				name.innerHTML = item.name;
-				description.innerHTML = item.description;
+				category.innerHTML = item.category;
 				price.innerHTML = item.price;
 				quantity.innerHTML = item.quantity;
-
-				document.getElementById("pList").appendChild(table);
-				document.getElementById("pTable" + a).appendChild(name);
-				document.getElementById("pTable" + a).appendChild(description);
-				document.getElementById("pTable" + a).appendChild(price);
-				document.getElementById("pTable" + a).appendChild(basket);
-				document.getElementById("pTable" + a).appendChild(confirm);
-				document.getElementById("pTable" + a).appendChild(quantity);
-				document.getElementById("pTable" + a).appendChild(update);
-				document.getElementById("pTable" + a).appendChild(deleteTD);
+				
+				basket.appendChild(basketIcon);
+				deleteTD.appendChild(deleteIcon);
+				update.appendChild(updateIcon);
+				update.appendChild(confirm);
+	
+				productTable.append(rows);
 
 				a = a + 1;
 			});
@@ -131,8 +132,7 @@ function newProduct() {
 		data : JSON
 				.stringify({
 					'name' : document.querySelector('#addProductName').value,
-					'description' : document
-							.querySelector('#addProductDescription').value,
+					'category' : document.querySelector('#addProductCategory').value,
 					'price' : document.querySelector('#addProductPrice').value,
 					'quantity' : '1'
 				}),
@@ -151,7 +151,7 @@ function addToBasket(e) {
 	const product = e.target.parentElement.parentElement;
 	const products = {
 		'name' : product.querySelector('#name').textContent,
-		'description' : product.querySelector('#description').textContent,
+		'category' : product.querySelector('#category').textContent,
 		'price' : product.querySelector('#price').textContent,
 		'quantity' : product.querySelector('#quantity').textContent
 	}
@@ -171,76 +171,65 @@ function showBasket() {
 	Http.onreadystatechange = function(e) {
 		if (Http.readyState == 4 && Http.status == 200) {
 			data = JSON.parse(Http.responseText);
-			data
-					.forEach(function(item) {
-						var table = document.createElement("tr");
-						var name = document.createElement("td");
-						var description = document.createElement("td");
-						var price = document.createElement("td");
-						var quantity = document.createElement("td");
-						var num = document.createElement("input");
-						var productPrice = document.createElement("td");
-						var remove = document.createElement("td");
-						var removeIcon = document.createElement("span");
-						var confirm = document.createElement("span");
+			data.forEach(function(item) {
+				var table = document.createElement("tr");
+				var name = document.createElement("td");
+				var category = document.createElement("td");
+				var price = document.createElement("td");
+				var quantity = document.createElement("td");
+				var num = document.createElement("input");
+				var productPrice = document.createElement("td");
+				var remove = document.createElement("td");
+				var removeIcon = document.createElement("span");
+				var confirm = document.createElement("span");
 
-						table.id = "bTable" + a;
-						quantity.id = "quantity";
-						num.id = "num";
-						num.type = "number";
-						num.value = "1";
-						num.min = "1";
-						num.max = "5";
+				table.id = "bTable" + a;
+				quantity.id = "quantity";
+				num.id = "num";
+				num.type = "number";
+				num.value = "1";
+				num.min = "1";
+				num.max = "5";
 
-						confirm.style.visibility = "hidden";
-						quantity.appendChild(num);
-						quantity.appendChild(confirm);
+				confirm.style.visibility = "hidden";
+				quantity.appendChild(num);
+				quantity.appendChild(confirm);
 
-						confirm.id = "confirm";
-						confirm.href = "#";
-						confirm.className = "glyphicon glyphicon-ok";
+				confirm.id = "confirm";
+				confirm.href = "#";
+				confirm.className = "glyphicon glyphicon-ok";
 
-						num.onchange = function() {
-							confirm.style.visibility = "visible";
-						}
+				num.onchange = function() {
+					confirm.style.visibility = "visible";
+				}
 
-						confirm.onclick = function() {
-							updateQuantity(item.basketid, num.value);
-							var total = document.getElementById("priceTxt");
-							total.innerHTML = parseInt(price.innerHTML)
-							* parseInt(num.value);
+				confirm.onclick = function() {
+					updateQuantity(item.basketid, num.value);
+				}
 
-						}
+				remove.appendChild(removeIcon);
+				removeIcon.id = item.basketid;
+				removeIcon.className = "glyphicon glyphicon-remove";
+				removeIcon.onclick = function() {
+					deleteFromBasket(removeIcon.id);
+				}
 
-						remove.appendChild(removeIcon);
-						removeIcon.id = item.basketid;
-						removeIcon.className = "glyphicon glyphicon-remove";
-						removeIcon.onclick = function() {
-							deleteFromBasket(removeIcon.id);
-						}
+				name.innerHTML = item.name;
+				category.innerHTML = item.category;
+				price.innerHTML = item.price;
+				num.value = item.quantity;
+				productPrice.innerHTML = "£" + (parseInt(price.innerHTML) * parseInt(num.value));
 
-						name.innerHTML = item.name;
-						description.innerHTML = item.description;
-						price.innerHTML = item.price;
-						num.value = item.quantity;
-						productPrice.innerHTML = parseInt(price.innerHTML)
-								* parseInt(num.value);
+				document.getElementById("bList").appendChild(table);
+				document.getElementById("bTable" + a).appendChild(name);
+				document.getElementById("bTable" + a).appendChild(category);
+				document.getElementById("bTable" + a).appendChild(price);
+				document.getElementById("bTable" + a).appendChild(quantity);
+				document.getElementById("bTable" + a).appendChild(productPrice)
+				document.getElementById("bTable" + a).appendChild(remove);
 
-						document.getElementById("bList").appendChild(table);
-						document.getElementById("bTable" + a).appendChild(name);
-						document.getElementById("bTable" + a).appendChild(
-								description);
-						document.getElementById("bTable" + a)
-								.appendChild(price);
-						document.getElementById("bTable" + a).appendChild(
-								quantity);
-						document.getElementById("bTable" + a).appendChild(
-								productPrice);
-						document.getElementById("bTable" + a).appendChild(
-								remove);
-
-						a = a + 1;
-					});
+				a = a + 1;
+			});
 		}
 
 	}
@@ -267,10 +256,9 @@ function deleteProduct(pId) {
 	});
 }
 
-function updateProduct(pId, n, d, p) {
+function updateProduct(pId, n, c, p) {
 	$.ajax({
-		url : 'http://localhost:9001/updateProduct/' + pId + '/' + n + '/' + d
-				+ '/' + p,
+		url : 'http://localhost:9001/updateProduct/' + pId + '/' + n + '/' + c + '/' + p,
 		type : 'PUT',
 		success : function(result) {
 			window.location.reload();

@@ -39,4 +39,9 @@ public class BasketController {
 	public String updateQuantity(@PathVariable int bId, @PathVariable int q) {
 		return service.updateQuantity(bId, q);
 	}
+	
+//	@GetMapping("/getId")
+//	public Basket findByBasketid(int bId) {
+//		return service.findByBasketid(bId);
+//	}	
 }
