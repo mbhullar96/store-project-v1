@@ -20,7 +20,7 @@ function basketCount() {
 
 function getProducts() {
 	const Http = new XMLHttpRequest();
-	const url = 'http://localhost:9001/showProducts';
+	const url = 'http://'+location.hostname+':9001/showProducts';
 	Http.open("GET", url);
 	var a = 1;
 	Http.onreadystatechange = function(e) {
