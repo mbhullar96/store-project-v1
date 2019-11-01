@@ -42,7 +42,7 @@ public class ProductsService {
 		return "Product deleted";
 	}
 	
-	public String updateProduct(int pId, String n, String c, int p) {
+	public String updateProduct(int pId, String n, String c, double p) {
 
 		Products product = findByProductid(pId);
 		product.setName(n);
@@ -52,7 +52,7 @@ public class ProductsService {
 		return "Product updated";
 	}
 	
-	public String updatePrice(int pId, int p) {
+	public String updatePrice(int pId, double p) {
 
 		Products product = findByProductid(pId);
 		product.setPrice(p);

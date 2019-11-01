@@ -15,4 +15,5 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
 	public ArrayList<Products> findAllByOrderByPriceDesc();
 	public ArrayList<Products> findAllByOrderByNameAsc();
 	public ArrayList<Products> findAllByOrderByNameDesc();
+	
 }

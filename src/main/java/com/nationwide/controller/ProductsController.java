@@ -46,12 +46,12 @@ public class ProductsController {
 	}
 	
 	@PutMapping("/updateProduct/{pId}/{n}/{c}/{p}")
-	public String updateProduct(@PathVariable int pId, @PathVariable String n, @PathVariable String c, @PathVariable int p) {
+	public String updateProduct(@PathVariable int pId, @PathVariable String n, @PathVariable String c, @PathVariable double p) {
 		return productService.updateProduct(pId, n, c, p);
 	}
 	
 	@PutMapping("/updatePrice/{pId}/{p}")
-	public String updatePrice(@PathVariable int pId, @PathVariable int p) {
+	public String updatePrice(@PathVariable int pId, @PathVariable double p) {
 		return productService.updatePrice(pId, p);
 	}
 	

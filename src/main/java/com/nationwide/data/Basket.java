@@ -12,7 +12,7 @@ public class Basket {
 	private int basketid;
 	private String name;
 	private String category;
-	private int price;
+	private double price;
 	private int quantity;
 	
 	public int getBasketid() {
@@ -33,10 +33,10 @@ public class Basket {
 	public void setCategory(String category) {
 		this.category = category;
 	}
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	public int getQuantity() {

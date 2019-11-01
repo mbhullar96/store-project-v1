@@ -20,7 +20,7 @@ function basketCount() {
 
 function getProducts() {
 	const Http = new XMLHttpRequest();
-	const url = 'http://35.246.32.170:9001/showProducts';
+	const url = 'http://localhost:9001/showProducts';
 	Http.open("GET", url);
 	var a = 1;
 	Http.onreadystatechange = function(e) {
@@ -128,7 +128,7 @@ function getProducts() {
 function newProduct() {
 	$.ajax({
 		type : 'POST',
-		url : 'http://35.246.32.170:9001/addProduct',
+		url : 'http://localhost:9001/addProduct',
 		data : JSON
 				.stringify({
 					'name' : document.querySelector('#addProductName').value,
@@ -145,7 +145,7 @@ function newProduct() {
 
 function addToBasket(e) {
 	const Http = new XMLHttpRequest();
-	const url = 'http://35.246.32.170:9001/addToBasket';
+	const url = 'http://localhost:9001/addToBasket';
 	Http.open("POST", url, true);
 	Http.setRequestHeader("Content-Type", "application/json");
 	const product = e.target.parentElement.parentElement;
@@ -165,7 +165,7 @@ function addToBasket(e) {
 
 function showBasket() {
 	const Http = new XMLHttpRequest();
-	const url = 'http://35.246.32.170:9001/showBasket';
+	const url = 'http://localhost:9001/showBasket';
 	Http.open("GET", url);
 	var a = 1;
 	Http.onreadystatechange = function(e) {
@@ -238,7 +238,7 @@ function showBasket() {
 
 function deleteFromBasket(bId) {
 	$.ajax({
-		url : 'http://35.246.32.170:9001/deleteFromBasket/' + bId,
+		url : 'http://localhost:9001/deleteFromBasket/' + bId,
 		type : 'DELETE',
 		success : function(result) {
 			window.location.reload();
@@ -248,7 +248,7 @@ function deleteFromBasket(bId) {
 
 function deleteProduct(pId) {
 	$.ajax({
-		url : 'http://35.246.32.170:9001/deleteProduct/' + pId,
+		url : 'http://localhost:9001/deleteProduct/' + pId,
 		type : 'DELETE',
 		success : function(result) {
 			window.location.reload();
@@ -258,7 +258,7 @@ function deleteProduct(pId) {
 
 function updateProduct(pId, n, c, p) {
 	$.ajax({
-		url : 'http://35.246.32.170:9001/updateProduct/' + pId + '/' + n + '/' + c + '/' + p,
+		url : 'http://localhost:9001/updateProduct/' + pId + '/' + n + '/' + c+ '/' + p,
 		type : 'PUT',
 		success : function(result) {
 			window.location.reload();
@@ -269,13 +269,33 @@ function updateProduct(pId, n, c, p) {
 
 function updateQuantity(bId, q) {
 	$.ajax({
-		url : 'http://35.246.32.170:9001/updateQuantity/' + bId + '/' + q,
+		url : 'http://localhost:9001/updateQuantity/' + bId + '/' + q,
 		type : 'PUT',
 		success : function(result) {
 			window.location.reload();
 		}
 	});
 
+}
+
+function priceAsc() {
+	const Http = new XMLHttpRequest();
+	const url = 'http://localhost:9001/priceAsc';
+	Http.open("GET", url);
+	var a = 1
+	Http.onreadystatechange = function(e) {
+		if (Http.readyState == 4) {
+			data = JSON.parse(Http.responseText);
+			data.forEach(function(item) {
+				console.log(document.getElementById("pTable" + a));
+				document.getElementById("bTable" + a).appendChild(item.price);
+				a++;
+			});
+		}
+
+	}
+	Http.send();
+	
 }
 
 function searchProducts() {
