@@ -37,5 +37,13 @@ public class BasketService {
 		repo.delete(b);
 		return "Product deleted";
 	}
+	
+	public String updateQuantity(int bId, int q) {
+
+		Basket basket = findByBasketid(bId);
+		basket.setQuantity(q);
+		repo.save(basket);
+		return "Quantity updated";
+	}
 
 }
