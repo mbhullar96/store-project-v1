@@ -9,6 +9,7 @@ public class Users {
 	
 	@Id
 	@GeneratedValue
+	//Integer
 	private int userid;
 	private String fname;
 	private String lname;

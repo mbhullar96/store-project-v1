@@ -11,8 +11,8 @@ public class Basket {
 	@GeneratedValue
 	private int basketid;
 	private String name;
-	private String description;
-	private int price;
+	private String category;
+	private double price;
 	private int quantity;
 	
 	public int getBasketid() {
@@ -27,16 +27,16 @@ public class Basket {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDescription() {
-		return description;
+	public String getCategory() {
+		return category;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCategory(String category) {
+		this.category = category;
 	}
-	public int getPrice() {
+	public double getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(double price) {
 		this.price = price;
 	}
 	public int getQuantity() {

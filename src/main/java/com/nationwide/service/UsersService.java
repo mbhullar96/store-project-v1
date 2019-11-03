@@ -56,5 +56,14 @@ public class UsersService {
 		return "User updated";
 	}
 	
+	public Boolean checkLogin(Users user) {
+		Users savedUser = repo.findByEmail(user.getEmail());
+		if(savedUser.getPassword().equals(user.getPassword())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
 
 }
