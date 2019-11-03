@@ -8,11 +8,26 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <title>ProjectTest</title>
-    
+
     <style>
-    	th, span, a, #update {
-    		cursor: pointer;
-    	}
+        th,
+        span,
+        a,
+        #update {
+            cursor: pointer;
+        }
+
+        th,
+        td,
+        #basket,
+        #products {
+            text-align: center;
+        }
+
+        #basketPriceDiv {
+            width: 50%;
+            margin: 0 auto;
+        }
     </style>
 </head>
 
@@ -40,13 +55,13 @@
     </nav>
 
     <div class="container" id="products">
-        <h4>Products</h4>
+        <h4 style="font-weight: bold;">Products</h4>
         <table class="table table-hover" id="pTable">
             <thead>
                 <tr>
                     <th onclick="sorting(0)">Name</th>
                     <th onclick="sorting(1)">Category</th>
-                    <th onclick="sorting(2)">Price</th>
+                    <th onclick="sorting(2)">Price(£)</th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -55,32 +70,44 @@
             <tbody id="pList">
             </tbody>
         </table>
-        <h5>Add New Product</h5>
-        <input type="text" id="addProductName" placeholder="Enter name"></input>
-        <input type="text" id="addProductCategory" placeholder="Enter category"></input>
-        <input type="number" id="addProductPrice" placeholder="Enter price"></input>
-        <button type="submit" id="btnAddProduct" onclick="newProduct()">Add Product</button>
+        <!-- <h5>Add New Product</h5> -->
+        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#newProductDiv">Add New
+            Product</button>
+        <div class="collapse" id="newProductDiv">
+            <br>
+            <input type="text" id="addProductName" placeholder="Enter name"></input>
+            <input type="text" id="addProductCategory" placeholder="Enter category"></input>
+            <input type="number" id="addProductPrice" placeholder="Enter price"></input>
+            <button type="submit" id="btnAddProduct" class="btn btn-primary" onclick="newProduct()">Add</button>
+        </div>
     </div>
     <br>
-    
+
 
     <div class="container" id="basket">
-        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#basketDiv">View Basket<span id="counter">(0)</span></button>
+        <button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#basketDiv">View Basket<span
+                id="counter">(0)</span></button>
         <div id="basketDiv" class="collapse">
+            <br>
             <table class="table table-hover" id="bTable">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Category</th>
-                        <th>Price</th>
+                        <th>Price(£)</th>
                         <th>Quantity</th>
-                        <th id="totalPrice">Total</th>
+                        <th id="totalPrice">Total(£)</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody id="bList">
                 </tbody>
             </table>
+            <div class="panel panel-default" style="width: 20%;" id="basketPriceDiv">
+                <h5 style="text-align: center; font-weight: bold;"><u>Total Price</u></h5>
+                <p id="basketTotal" style="text-align: center; font-weight: bold;"></p>
+            </div>
+            <br>
         </div>
     </div>
 
