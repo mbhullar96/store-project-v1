@@ -14,8 +14,7 @@ $(document).ready(function () {
 })
 
 function basketCount() {
-	var count = 0;
-	count = document.getElementById("bList").getElementsByTagName("tr").length;
+	var count = document.getElementById("bList").getElementsByTagName("tr").length;
 	document.getElementById("counter").innerHTML = "(" + count + ")";
 }
 
@@ -166,6 +165,8 @@ function addToBasket(e) {
 		console.log("Here");
 	}
 	Http.send(JSON.stringify(products));
+	basketCount();
+	totalPrice();
 	window.location.reload();
 
 }
@@ -249,10 +250,24 @@ function deleteFromBasket(bId) {
 		url: 'http://' + location.hostname + ':9001/deleteFromBasket/' + bId,
 		type: 'DELETE',
 		success: function (result) {
+			basketCount();
+			totalPrice();
 			window.location.reload();
 		}
 	});
 }
+
+// function deleteFromBasket(bId) {
+// 	const Http = new XMLHttpRequest();
+// 	const url = 'http://' + location.hostname + ':9001/deleteFromBasket/' + bId;
+// 	Http.open("DELETE", url, true);
+// 	Http.onload = function () {
+// 		if (Http.readyState == 4 && Http.status == 200) {
+// 			data = JSON.parse(Http.responseText);
+// 		}
+// 	}
+// 	Http.send(); 
+// }
 
 function deleteProduct(pId) {
 	$.ajax({
