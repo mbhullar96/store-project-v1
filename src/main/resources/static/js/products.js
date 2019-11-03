@@ -16,7 +16,6 @@ $(document).ready(function () {
 function basketCount() {
 	var count = document.getElementById("bList").getElementsByTagName("tr").length;
 	document.getElementById("counter").innerHTML = "(" + count + ")";
-	console.log("called");
 }
 
 function getProducts() {
@@ -200,7 +199,6 @@ function showBasket() {
 				num.type = "number";
 				num.value = "1";
 				num.min = "1";
-				num.max = "5";
 
 				confirm.style.visibility = "hidden";
 				quantity.appendChild(num);
