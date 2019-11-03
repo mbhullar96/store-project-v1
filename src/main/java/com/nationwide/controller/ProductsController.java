@@ -3,6 +3,7 @@ package com.nationwide.controller;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,6 +16,7 @@ import com.nationwide.data.Products;
 import com.nationwide.service.ProductsService;
 
 @RestController
+@CrossOrigin("*")
 public class ProductsController {
 	
 	@Autowired
@@ -45,13 +47,13 @@ public class ProductsController {
 		return productService.deleteProduct(pId);
 	}
 	
-	@PutMapping("/updateProduct/{pId}/{n}/{d}/{p}/{q}")
-	public String updateProduct(@PathVariable int pId, @PathVariable String n, @PathVariable String d, @PathVariable int p) {
-		return productService.updateProduct(pId, n, d, p);
+	@PutMapping("/updateProduct/{pId}/{n}/{c}/{p}")
+	public String updateProduct(@PathVariable int pId, @PathVariable String n, @PathVariable String c, @PathVariable double p) {
+		return productService.updateProduct(pId, n, c, p);
 	}
 	
 	@PutMapping("/updatePrice/{pId}/{p}")
-	public String updatePrice(@PathVariable int pId, @PathVariable int p) {
+	public String updatePrice(@PathVariable int pId, @PathVariable double p) {
 		return productService.updatePrice(pId, p);
 	}
 	

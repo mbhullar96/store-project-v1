@@ -302,6 +302,28 @@ function updateQuantity(bId, q) {
 
 }
 
+function updateProduct(pId, n, c, p) {
+	$.ajax({
+		url: 'http://' + location.hostname + ':9001/updateProduct/' + pId + '/' + n + '/' + c + '/' + p,
+		type: 'PUT',
+		success: function (result) {
+			window.location.reload();
+		}
+	});
+
+}
+
+function updateQuantity(bId, q) {
+	$.ajax({
+		url: 'http://' + location.hostname + ':9001/updateQuantity/' + bId + '/' + q,
+		type: 'PUT',
+		success: function (result) {
+			window.location.reload();
+		}
+	});
+
+}
+
 function totalPrice() {
 	var price = document.getElementById("basketTotal");
 	var table = document.getElementById("bList");
