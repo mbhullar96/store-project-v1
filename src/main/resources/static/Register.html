@@ -1,60 +1,63 @@
 <!DOCTYPE html>
 
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport"
-	content="width = device-width, initial-scale = 1, shrink-to-fit = no">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-<title>ProjectTest</title>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+	<title>Register</title>
+	<style>
+		#registerDiv {
+			width: 50%;
+			margin: 0 auto;
+			text-align: center;
+		}
+	</style>
 </head>
 
-<body>
+<body style="background-color: #f5f5f5;">
 
-	<div class="container">
-		<h3 class="text-center">Register</h3>
-	</div>
-	<br>
-	<div class="container">
-		<form action="Login.html" onsubmit=>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="index.html">Store</a>
+			</div>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="Login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+			</ul>
+		</div>
+	</nav>
+	
+	<div class="container" id="registerDiv">
+		<h4 style="font-weight: bold;">Register</h4>
+		<form action="Login.html">
 			<div class="form-group">
-				<label for="text"><b>First Name</b></label> <input type="text"
-					class="form-control" id="fname" name="fname"
-					placeholder="Enter First Name">
+				<br>
+				<input type="text" class="form-control" id="fname" name="fname" placeholder="Enter First Name">
 			</div>
 			<div class="form-group">
-				<label for="text"><b>Last Name</b></label> <input type="text"
-					class="form-control" id="lname" name="lname"
-					placeholder="Enter Last Name">
+				<input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Last Name">
 			</div>
 			<div class="form-group">
-				<label for="text"><b>Email Address</b></label> <input type="email"
-					class="form-control" id="email" name="email"
-					placeholder="Enter email address">
+				<input type="email" class="form-control" id="email" name="email" placeholder="Enter email address">
 			</div>
 			<div class="form-group">
-				<label for="text"><b>Password</b></label> <input type="password"
-					class="form-control" id="password" name="password"
-					placeholder="Enter password">
+				<input type="password" class="form-control" id="password" name="password" placeholder="Enter password">
 			</div>
 			<div class="form-group">
-				<label for="text"><b>Confirm Password</b></label> <input
-					type="password" class="form-control" id="password1"
-					placeholder="Confirm password">
+				<input type="password" class="form-control" id="password1" placeholder="Confirm password">
 			</div>
-			<input type="submit" onclick="addUsers()"> <br>
+			<button type="submit" class="btn btn-primary">Submit</button>
+			<br><br>
+			<a href="Login.html">Already Registered</a>
 		</form>
 	</div>
-	
+
 	<script src="js/register.js"></script>
 
 </body>
+
 </html>
