@@ -9,7 +9,7 @@ $(document).ready(function () {
 		basketCount();
 		totalPrice();
 
-	}, 1000);
+	}, 500);
 
 })
 
@@ -17,7 +17,6 @@ function basketCount() {
 	var table = document.getElementById("bList");
 	var rows = table.getElementsByTagName("tr");
 	var count = rows.length;
-	console.log("countA " + count);
 	document.getElementById("counter").innerHTML = "(" + count + ")";
 }
 
@@ -325,16 +324,12 @@ function totalPrice() {
 	var price = document.getElementById("basketTotal");
 	var table = document.getElementById("bList");
 	var rows = table.rows;
-	console.log(rows.length);
 
 	var p = 0;
 	for (var i = 0; i < rows.length; i++) {
 		var x = rows[i].getElementsByTagName("td")[4];
 		var xFloat = parseFloat(x.innerHTML);
-		console.log(x + "2");
-		console.log(xFloat);
 		p = p + xFloat;
-		console.log(p);
 	}
 	price.innerHTML = "£" + p.toFixed(2);
 	console.log(price.innerHTML + "p");
