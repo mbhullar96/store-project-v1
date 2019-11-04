@@ -9,13 +9,15 @@ $(document).ready(function () {
 		basketCount();
 		totalPrice();
 
-	}, 150);
+	}, 1000);
 
 })
 
 function basketCount() {
-	var count = document.getElementById("bList").rows.length;
-	console.log("count " + count);
+	var table = document.getElementById("bList");
+	var rows = table.getElementsByTagName("tr");
+	var count = rows.length;
+	console.log("countA " + count);
 	document.getElementById("counter").innerHTML = "(" + count + ")";
 }
 
