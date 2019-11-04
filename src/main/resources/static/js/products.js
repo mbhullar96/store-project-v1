@@ -15,6 +15,7 @@ $(document).ready(function () {
 
 function basketCount() {
 	var count = document.getElementById("bList").getElementsByTagName("tr").length;
+	console.log("count " + count);
 	document.getElementById("counter").innerHTML = "(" + count + ")";
 }
 
