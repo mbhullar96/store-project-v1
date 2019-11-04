@@ -165,8 +165,6 @@ function addToBasket(e) {
 		console.log("Here");
 	}
 	Http.send(JSON.stringify(products));
-	basketCount();
-	totalPrice();
 	window.location.reload();
 
 }
@@ -249,8 +247,6 @@ function deleteFromBasket(bId) {
 		url: 'http://' + location.hostname + ':9001/deleteFromBasket/' + bId,
 		type: 'DELETE',
 		success: function (result) {
-			basketCount();
-			totalPrice();
 			window.location.reload();
 		}
 	});
