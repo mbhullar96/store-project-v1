@@ -323,18 +323,18 @@ function totalPrice() {
 	var price = document.getElementById("basketTotal");
 	var table = document.getElementById("bList");
 	var rows = table.rows;
-	console.log(rows);
+	console.log(rows + "1");
 	var p = 0;
 	for (var i = 0; i < rows.length; i++) {
 		var x = rows[i].getElementsByTagName("td")[4];
 		var xFloat = parseFloat(x.innerHTML);
-		console.log(x);
+		console.log(x + "2");
 		console.log(xFloat);
 		p = p + xFloat;
 		console.log(p);
 	}
 	price.innerHTML = "£" + p.toFixed(2);
-	console.log(price.innerHTML);
+	console.log(price.innerHTML + "p");
 }
 
 function searchProducts() {
