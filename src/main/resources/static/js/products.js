@@ -323,7 +323,8 @@ function totalPrice() {
 	var price = document.getElementById("basketTotal");
 	var table = document.getElementById("bList");
 	var rows = table.rows;
-	console.log(rows + "1");
+	console.log(rows.length);
+
 	var p = 0;
 	for (var i = 0; i < rows.length; i++) {
 		var x = rows[i].getElementsByTagName("td")[4];
