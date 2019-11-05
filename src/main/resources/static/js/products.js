@@ -9,12 +9,14 @@ $(document).ready(function () {
 		basketCount();
 		totalPrice();
 
-	}, 150);
+	}, 500);
 
 })
 
 function basketCount() {
-	var count = document.getElementById("bList").getElementsByTagName("tr").length;
+	var table = document.getElementById("bList");
+	var rows = table.getElementsByTagName("tr");
+	var count = rows.length;
 	document.getElementById("counter").innerHTML = "(" + count + ")";
 }
 
@@ -165,8 +167,6 @@ function addToBasket(e) {
 		console.log("Here");
 	}
 	Http.send(JSON.stringify(products));
-	basketCount();
-	totalPrice();
 	window.location.reload();
 
 }
@@ -199,7 +199,6 @@ function showBasket() {
 				num.type = "number";
 				num.value = "1";
 				num.min = "1";
-				num.max = "5";
 
 				confirm.style.visibility = "hidden";
 				quantity.appendChild(num);
@@ -250,8 +249,6 @@ function deleteFromBasket(bId) {
 		url: 'http://' + location.hostname + ':9001/deleteFromBasket/' + bId,
 		type: 'DELETE',
 		success: function (result) {
-			basketCount();
-			totalPrice();
 			window.location.reload();
 		}
 	});
@@ -301,6 +298,28 @@ function updateQuantity(bId, q) {
 
 }
 
+function updateProduct(pId, n, c, p) {
+	$.ajax({
+		url: 'http://' + location.hostname + ':9001/updateProduct/' + pId + '/' + n + '/' + c + '/' + p,
+		type: 'PUT',
+		success: function (result) {
+			window.location.reload();
+		}
+	});
+
+}
+
+function updateQuantity(bId, q) {
+	$.ajax({
+		url: 'http://' + location.hostname + ':9001/updateQuantity/' + bId + '/' + q,
+		type: 'PUT',
+		success: function (result) {
+			window.location.reload();
+		}
+	});
+
+}
+
 function totalPrice() {
 	var price = document.getElementById("basketTotal");
 	var table = document.getElementById("bList");
@@ -310,10 +329,10 @@ function totalPrice() {
 	for (var i = 0; i < rows.length; i++) {
 		var x = rows[i].getElementsByTagName("td")[4];
 		var xFloat = parseFloat(x.innerHTML);
-
 		p = p + xFloat;
 	}
 	price.innerHTML = "£" + p.toFixed(2);
+	console.log(price.innerHTML + "p");
 }
 
 function searchProducts() {
@@ -393,37 +412,3 @@ function sorting(n) {
 		}
 	}
 }
-
-// function priceSorting(n) {
-// 	var table = document.getElementById("pList");
-// 	var switching = true;
-// 	var dir = "asc";
-// 	var shouldSwitch;
-// 	var switchCount = 0;
-// 	var i;
-// 	while (switching) {
-// 		switching = false;
-// 		var rows = table.rows;
-// 		for (i = 0; i < (rows.length - 1); i++) {
-
-// 			shouldSwitch = false;
-// 			var x = rows[i].getElementsByTagName("td")[n];
-// 			var y = rows[i + 1].getElementsByTagName("td")[n];
-// 			if (dir == "asc") {
-
-// 			} else if (dir == "desc") {
-
-// 			}
-// 		}
-// 		if (shouldSwitch) {
-// 			rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-// 			switching = true;
-// 			switchCount++;
-// 		} else {
-// 			if (switchCount == 0 && dir == "asc") {
-// 				dir = "desc";
-// 				switching = true;
-// 			}
-// 		}
-// 	}
-// }
